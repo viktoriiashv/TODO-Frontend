@@ -1,0 +1,112 @@
+main {
+  background: url("cat-bg.jpg") center;
+  background-size: cover;
+  min-height: 100vh;
+  color: #ffffff; }
+
+.big-input {
+  width: 100%;
+  height: 50px; }
+  .big-input:hover, .big-input:active, .big-input:focus {
+    transition: .3s;
+    background-color: rgba(255, 255, 255, 0.1); }
+
+input {
+  margin: 0 auto;
+  padding-left: 15px;
+  display: block;
+  border: 1px solid #000000;
+  border-radius: 10px;
+  min-height: 25px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #ffffff; }
+  input:hover, input:active, input:focus {
+    outline: none; }
+
+input::placeholder {
+  padding-left: 15px;
+  color: rgba(255, 255, 255, 0.6); }
+
+.edit-input {
+  min-width: 150px;
+  display: inline-block; }
+  @media (max-width: 767px) {
+    .edit-input {
+      min-width: 0;
+      width: 140px;
+      padding-left: 0; } }
+
+ul {
+  margin: 0;
+  padding-left: 0;
+  display: flex;
+  flex-flow: column;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  list-style-type: none; }
+
+.panel {
+  margin-top: 50px;
+  max-height: 400px;
+  overflow-y: scroll; }
+
+h1 {
+  text-align: center;
+  font-family: 'Comfortaa', monospace;
+  padding: 50px 0;
+  text-transform: uppercase; }
+
+li {
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+  width: 100%;
+  overflow: hidden; }
+  @media (max-width: 767px) {
+    li {
+      flex-flow: column; } }
+
+li span, li label{
+  padding-left: 20px;
+  padding-right: 5px;
+  display: inline-block;
+  font-size: 15px;
+  font-family: 'Comfortaa', monospace;
+  text-align: left;
+  overflow: hidden; }
+
+i {
+  color: black; }
+
+button {
+  min-width: 40px;
+  height: 40px;
+  display: inline-flex;
+  flex-flow: row;
+  align-items: center;
+  justify-content: space-around;
+  background-color: rgba(255, 255, 255, 0.6);
+  border: 1px solid #000000;
+  border-radius: 10px; }
+  button:hover, button:active, button:focus {
+    background-color: #ffffff;
+    transition: .3s;
+    outline: none; }
+
+.controls-btn {
+  padding: 10px 15px;
+  min-width: 320px;
+  display: inline-flex;
+  justify-content: flex-end;
+  align-items: center; }
+  @media (max-width: 767px) {
+    .controls-btn {
+      justify-content: center; } }
+
+.download {
+  margin: 20px 0; 
+}
+.done {
+  text-decoration: line-through;
+}
