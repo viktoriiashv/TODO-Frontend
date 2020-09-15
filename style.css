@@ -110,3 +110,10 @@ button {
 .done {
   text-decoration: line-through;
 }
+.controls{
+  display: flex;
+}
+.del{
+  margin-left: 20px;
+  margin-right: 20px;
+}

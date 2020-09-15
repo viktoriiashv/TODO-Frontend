@@ -11,17 +11,21 @@ const todoElement = document.getElementById('todolist');
 const todoForm = document.forms['todoform'];
 
 function appendTask(task) {
-  console.log(task);
   const { Id, Name, Done, TaskListId } = task;
-  console.log(Name);
   todoElement.innerHTML += `
-    <li>
+    <li data-id="${Id}">
       <span ${Done ? `class="done"` : ``} >${Id} ${Name}</span>
+      <div class="controls">
       <label><input type="checkbox" name="Done" class="checkbox" value="${Done}" ${Done ? `checked` : ``}>IsDone</label>
+      <button class="del" title="Delete TODO"><i class="fas fa-trash"></i></button>
+      </div>
     </li>`;
 }
+
+function removeTask(target) {
+    target.remove();
+}
 function postTask(task) {
-  console.log(JSON.stringify(task));
   return fetch(tasksEndpoint, {
       method: 'POST', 
       headers:  {
@@ -32,30 +36,45 @@ function postTask(task) {
   .then(response => response.json())
 }
 
+function deleteTask(id) {
+  return fetch(tasksEndpoint + id, {
+      method: 'DELETE', 
+      headers:  {
+          'Content-Type': 'application/json'
+      },
+
+  });
+}
 
 todoForm.addEventListener('submit', (event) => {
     event.preventDefault();
     const formData = new FormData(todoForm);
-    const task = new Task(90, Object.fromEntries(formData.entries()).Name, false, 1);
+    const task = new Task(1, Object.fromEntries(formData.entries()).Name, false, 1);
     postTask(task)
     .then(appendTask)
     .then(_ => todoForm.reset())
 })
 
 
-todoElement.addEventListener('click', (event) => {//another way - foreach with adding function for inputs
-  if (event.target.tagName === 'INPUT') {
-    const target = event.target.closest("LI").querySelector('SPAN');
-    if(target.classList.contains('done')) {
-      target.classList.remove('done');
-    } else {
-      target.classList.add('done');
-    }
-  }
-})
-
 let tasksEndpoint = 'http://localhost:5000/api/tasks/';
 
 fetch(tasksEndpoint)
     .then(response => response.json())
-    .then(tasks => tasks.forEach(appendTask));
+    .then(tasks => tasks.map(appendTask));
+
+    todoElement.addEventListener('click', (event) => {//another way - foreach with adding function for inputs
+      if (event.target.tagName === 'INPUT') {
+        const target = event.target.closest("LI").querySelector('SPAN');
+        if(target.classList.contains('done')) {
+          target.classList.remove('done');
+        } else {
+          target.classList.add('done');
+        }
+      }
+      else if (event.target.tagName === 'BUTTON' || event.target.tagName === 'I') {
+        const target = event.target.closest("LI");
+        let id = target.dataset.id;
+        deleteTask(id)
+        .then(removeTask(target));
+      }
+    }) 
