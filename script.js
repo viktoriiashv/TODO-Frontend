@@ -1,9 +1,9 @@
 class Task {
-  constructor(Id, Name, Done, TaskListId) {
-        this.Id = Id;
-        this.Name = Name;
-        this.Done = Done;
-        this.TaskListId = TaskListId;
+  constructor(id, name, done, taskListId) {
+        this.id = id;
+        this.name = name;
+        this.done = done;
+        this.taskListId = taskListId;
   }
 }
 
@@ -11,12 +11,12 @@ const todoElement = document.getElementById('todolist');
 const todoForm = document.forms['todoform'];
 
 function appendTask(task) {
-  const { Id, Name, Done, TaskListId } = task;
+  const { id, name, done, taskListId } = task;
   todoElement.innerHTML += `
-    <li data-id="${Id}">
-      <span ${Done ? `class="done"` : ``} >${Id} ${Name}</span>
+    <li data-id="${id}">
+      <span ${done ? `class="done"` : ``} >${id} ${name}</span>
       <div class="controls">
-      <label><input type="checkbox" name="Done" class="checkbox" value="${Done}" ${Done ? `checked` : ``}>IsDone</label>
+      <label><input type="checkbox" name="Done" class="checkbox" value="${done}" ${done ? `checked` : ``}>IsDone</label>
       <button class="del" title="Delete TODO"><i class="fas fa-trash"></i></button>
       </div>
     </li>`;
@@ -49,7 +49,7 @@ function deleteTask(id) {
 todoForm.addEventListener('submit', (event) => {
     event.preventDefault();
     const formData = new FormData(todoForm);
-    const task = new Task(1, Object.fromEntries(formData.entries()).Name, false, 1);
+    const task = new Task(1, Object.fromEntries(formData.entries()).name, false, 1);
     postTask(task)
     .then(appendTask)
     .then(_ => todoForm.reset())
