@@ -26,12 +26,17 @@ function removeTask(target) {
     target.remove();
 }
 function postTask(task) {
+  const jsonBody = {
+    name: task.name,
+    done: task.done,
+    taskListId: task.taskListId
+  };
   return fetch(tasksEndpoint, {
       method: 'POST', 
       headers:  {
           'Content-Type': 'application/json'
       },
-      body: JSON.stringify(task)
+      body: JSON.stringify(jsonBody)
   })
   .then(response => response.json())
 }
@@ -46,10 +51,24 @@ function deleteTask(id) {
   });
 }
 
+function updateTaskStatus(id, taskStatus) {
+  const jsonBody = {
+    done: taskStatus
+  };
+  return fetch(tasksEndpoint + id, {
+      method: 'PATCH', 
+      headers:  {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(jsonBody)
+  });
+}
+
 todoForm.addEventListener('submit', (event) => {
     event.preventDefault();
     const formData = new FormData(todoForm);
     const task = new Task(1, Object.fromEntries(formData.entries()).name, false, 1);
+    console.log(task);
     postTask(task)
     .then(appendTask)
     .then(_ => todoForm.reset())
@@ -65,10 +84,13 @@ fetch(tasksEndpoint)
     todoElement.addEventListener('click', (event) => {//another way - foreach with adding function for inputs
       if (event.target.tagName === 'INPUT') {
         const target = event.target.closest("LI").querySelector('SPAN');
+        let id = event.target.closest("LI").dataset.id;
         if(target.classList.contains('done')) {
           target.classList.remove('done');
+          updateTaskStatus(id, false);
         } else {
           target.classList.add('done');
+          updateTaskStatus(id, true);
         }
       }
       else if (event.target.tagName === 'BUTTON' || event.target.tagName === 'I') {
